@@ -43,8 +43,8 @@ int main(int argc, const char *argv[])
     // vector<DataFrame> dataBuffer; // list of data frames which are held in memory at the same time
     
     // Ring buffer for memory optimization
-    // boost::circular_buffer<DataFrame> dataBuffer(dataBufferSize);
-    boost::circular_buffer_space_optimized<DataFrame> dataBuffer(dataBufferSize);
+    boost::circular_buffer<DataFrame> dataBuffer(dataBufferSize);
+    // boost::circular_buffer_space_optimized<DataFrame> dataBuffer(dataBufferSize);
 
     
     bool bVis = false;            // visualize results
