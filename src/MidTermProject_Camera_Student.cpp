@@ -16,6 +16,9 @@
 #include "dataStructures.h"
 #include "matching2D.hpp"
 
+// #include "boost/circular_buffer/space_optimized.hpp"
+#include "boost/circular_buffer.hpp"
+
 using namespace std;
 
 /* MAIN PROGRAM */
@@ -37,7 +40,13 @@ int main(int argc, const char *argv[])
 
     // misc
     int dataBufferSize = 2;       // no. of images which are held in memory (ring buffer) at the same time
-    vector<DataFrame> dataBuffer; // list of data frames which are held in memory at the same time
+    // vector<DataFrame> dataBuffer; // list of data frames which are held in memory at the same time
+    
+    // Ring buffer for memory optimization
+    // boost::circular_buffer<DataFrame> dataBuffer(dataBufferSize);
+    boost::circular_buffer_space_optimized<DataFrame> dataBuffer(dataBufferSize);
+
+    
     bool bVis = false;            // visualize results
 
     /* MAIN LOOP OVER ALL IMAGES */
@@ -62,7 +71,16 @@ int main(int argc, const char *argv[])
         // push image into data frame buffer
         DataFrame frame;
         frame.cameraImg = imgGray;
+
         dataBuffer.push_back(frame);
+        /* // If using just a std::vector<DataFrame> dataBuffer
+        
+        // Pop old images
+        if (dataBuffer.size() > dataBufferSize)
+        {
+            dataBuffer.erase(dataBuffer.begin());
+        }
+        */
 
         //// EOF STUDENT ASSIGNMENT
         cout << "#1 : LOAD IMAGE INTO BUFFER done" << endl;
@@ -101,7 +119,7 @@ int main(int argc, const char *argv[])
         //// EOF STUDENT ASSIGNMENT
 
         // optional : limit number of keypoints (helpful for debugging and learning)
-        bool bLimitKpts = false;
+        bool bLimitKpts = true;
         if (bLimitKpts)
         {
             int maxKeypoints = 50;
