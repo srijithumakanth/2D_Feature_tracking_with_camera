@@ -36,12 +36,37 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
     if (selectorType.compare("SEL_NN") == 0)
     { // nearest neighbor (best match)
 
+        double t = (double)cv::getTickCount();
+    
         matcher->match(descSource, descRef, matches); // Finds the best match for each descriptor in desc1
+    
+        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+        std::cout << " (NN) with n=" << matches.size() << " matches in " << 1000 * t / 1.0 << " ms" << endl;
     }
     else if (selectorType.compare("SEL_KNN") == 0)
     { // k nearest neighbors (k=2)
 
-        // ...
+        int k = 2;
+        vector<vector<cv::DMatch>> knn_matches;
+
+        double t = (double)cv::getTickCount();
+
+        matcher->knnMatch(descSource, knn_matches, k);  // finds the 2 best matches
+
+        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+        std::cout << " (KNN) with n=" << matches.size() << " matches in " << 1000 * t / 1.0 << " ms" << endl;
+
+        // Filter matches using descriptor distance ratio test
+        double minDescDistRatio = 0.8;
+        for (auto it = knn_matches.begin(); it != knn_matches.end(); ++it)
+        {
+
+            if ((*it)[0].distance < minDescDistRatio * (*it)[1].distance)
+            {
+                matches.push_back((*it)[0]);
+            }
+        }
+        std::cout << " KNN # keypoints removed = " << knn_matches.size() - matches.size() << endl;
     }
 }
 
