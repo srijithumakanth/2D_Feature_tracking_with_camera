@@ -99,10 +99,15 @@ int main(int argc, const char *argv[])
         {
             detKeypointsShiTomasi(keypoints, imgGray, false);
         }
+        else if (detectorType.compare("HARRIS") == 0)
+        {
+            detKeypointsHarris(keypoints, img, bVis);
+        }
         else
         {
-            //...
+            detKeypointsModern(keypoints, img, detectorType, bVis);
         }
+        
         //// EOF STUDENT ASSIGNMENT
 
         //// STUDENT ASSIGNMENT
@@ -111,9 +116,24 @@ int main(int argc, const char *argv[])
         // only keep keypoints on the preceding vehicle
         bool bFocusOnVehicle = true;
         cv::Rect vehicleRect(535, 180, 180, 150);
+        int kp_count = 0;
+        std::vector<float> neighbourhood;
         if (bFocusOnVehicle)
         {
-            // ...
+            for (auto it = keypoints.begin(); it < keypoints.end(); ++it)
+            {
+                bool pointsInRectangle = vehicleRect.contains((*it).pt);
+                if (!pointsInRectangle)
+                {
+                    keypoints.erase(it);
+                }
+                else
+                {
+                    // get neighbouhood 
+                    neighbourhood.push_back(it->size);
+                    kp_count++;
+                }
+            }
         }
 
         //// EOF STUDENT ASSIGNMENT
