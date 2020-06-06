@@ -10,14 +10,17 @@ double matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::K
                       std::vector<cv::DMatch> &matches, std::string descriptorType, std::string matcherType, std::string selectorType)
 {
     // configure matcher
-    bool crossCheck = false;
+    bool crossCheck = true;
+    // bool crossCheck = false;
     cv::Ptr<cv::DescriptorMatcher> matcher;
 
     if (matcherType.compare("MAT_BF") == 0)
     {
+        if (selectorType.compare("SEL_KNN") == 0) crossCheck = false;
         // int normType = cv::NORM_HAMMING;
         int normType = descriptorType.compare("DES_BINARY") == 0 ? cv::NORM_HAMMING : cv::NORM_L2;
         matcher = cv::BFMatcher::create(normType, crossCheck);
+        std::cout<<"Brute Force Matching" <<endl;
     }
     else if (matcherType.compare("MAT_FLANN") == 0)
     {
@@ -33,6 +36,7 @@ double matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::K
         }
 
         matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+        std::cout<<"FLANN Matching" <<endl;
     }
 
     double t = (double)cv::getTickCount();
@@ -52,9 +56,8 @@ double matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::K
         int k = 2;
         vector<vector<cv::DMatch>> knn_matches;
 
-        matcher->knnMatch(descSource, knn_matches, k);  // finds the 2 best matches
+        matcher->knnMatch(descSource, descRef, knn_matches, k);  // finds the 2 best matches
 
-        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
         std::cout << " (KNN) with n=" << matches.size() << " matches in " << 1000 * t / 1.0 << " ms" << endl;
 
         // Filter matches using descriptor distance ratio test
@@ -68,6 +71,8 @@ double matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::K
             }
         }
         // std::cout << " KNN # keypoints removed = " << knn_matches.size() - matches.size() << endl;
+        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+
     }
 
     return (1000 * t / 1.0);
