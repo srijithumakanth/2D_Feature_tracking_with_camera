@@ -116,24 +116,23 @@ int main(int argc, const char *argv[])
         // only keep keypoints on the preceding vehicle
         bool bFocusOnVehicle = true;
         cv::Rect vehicleRect(535, 180, 180, 150);
-        int kp_count = 0;
-        std::vector<float> neighbourhood;
         if (bFocusOnVehicle)
         {
-            for (auto it = keypoints.begin(); it < keypoints.end(); ++it)
+            vector<cv::KeyPoint> filteredKeypoints;
+            vector<cv::KeyPoint> neighbourhoodKeypoints;
+            for (auto kp : keypoints)
             {
-                bool pointsInRectangle = vehicleRect.contains((*it).pt);
-                if (!pointsInRectangle)
+                if (vehicleRect.contains(kp.pt))
                 {
-                    keypoints.erase(it);
+                    filteredKeypoints.push_back(kp);
                 }
-                else
+                else 
                 {
-                    // get neighbouhood 
-                    neighbourhood.push_back(it->size);
-                    kp_count++;
+                    neighbourhoodKeypoints.push_back(kp);
                 }
             }
+            keypoints = filteredKeypoints;
+            // keypoints = neighbourhoodKeypoints;
         }
 
         //// EOF STUDENT ASSIGNMENT
