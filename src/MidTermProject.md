@@ -359,7 +359,7 @@ Count the number of keypoints on the preceding vehicle for all 10 images and tak
 
 #### HARRIS
 <figure>
-    <img  src="../images/Harris.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="../images/HARRIS.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
