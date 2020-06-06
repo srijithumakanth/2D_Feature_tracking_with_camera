@@ -22,11 +22,6 @@
 
 using namespace std;
 
-// void readImage(cv::Mat&,cv::Mat&,int,int,int,int,string&, string&,string&);
-// void focusOnVehicle(vector<cv::KeyPoint>& ,bool);
-// void limitKpts(vector<cv::KeyPoint>& , string& , bool );
-// void visualizeMatches(RingBuffer<DataFrame>& ,vector<cv::DMatch>& ,bool );
-
 /* MAIN PROGRAM */
 int main(int argc, const char *argv[])
 {
@@ -56,15 +51,16 @@ int main(int argc, const char *argv[])
     bool bVis = true;            // visualize results
     bool bFocusOnVehicle = true; // only keep keypoints on the preceding vehicle
     bool bLimitKpts = false;
-    //Variables for MP.7 MP.8 and MP.9
+    
+    //Variables for Task MP.7 MP.8 and MP.9
     map<string, int> totalKptsOnVehicle;
     map<string, int> totalMatchedKpts;
     map<string, double> timeforKptsDetect;
     map<string, double> timeforKptsDescript;
 
-    for (auto selectorType : Selectors) //Loop Over Selector:"SEL_NN" ,"SEL_KNN"
+    for (auto selectorType : Selectors) //Loop Over Selector
     {
-        for (auto matcherType : Matchers) //Loop Over Matchers: "MAT_BF", "MAT_FLANN"
+        for (auto matcherType : Matchers) //Loop Over Matchers
         {
             for (auto detectorType : Detectors) //Loop Over Detector
             {
@@ -101,7 +97,6 @@ int main(int argc, const char *argv[])
 
                         img = cv::imread(imgFullFilename);
                         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);
-                        // readImage(img, imgGray, imgIndex, imgStartIndex, imgEndIndex, imgFillWidth, imgBasePath, imgPrefix, imgFileType);
 
                         //// TASK MP.1 -> replace the following code with ring buffer of size dataBufferSize
                         
@@ -240,6 +235,7 @@ int main(int argc, const char *argv[])
                 } // eof loop descriptor
 
             } // eof loop detector
+
             if(matcherType.compare("MAT_BF") == 0) //Only check MAT_BF as reqired in MP.8
             {
                 string numOfMatchedKptsFileName =  "MP_8.csv";
@@ -285,19 +281,3 @@ int main(int argc, const char *argv[])
 
     return 0;
 }
-
-/******************** HELPER FUNCTIONS ***************************************/
-
-// void readImage(cv::Mat& img, cv::Mat& imgGray
-//               ,int imgIndex,int imgStartIndex, int imgEndIndex,int imgFillWidth
-//               ,string& imgBasePath, string& imgPrefix, string& imgFileType )
-// {
-//   ostringstream imgNumber;
-//   imgNumber << setfill('0') << setw(imgFillWidth) << imgStartIndex + imgIndex;
-//   string imgFullFilename = imgBasePath + imgPrefix + imgNumber.str() + imgFileType;
-
-//   // load image from file and convert to grayscale
-
-//   img = cv::imread(imgFullFilename);
-//   cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);
-// }
