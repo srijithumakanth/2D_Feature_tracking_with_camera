@@ -353,43 +353,43 @@ Count the number of keypoints on the preceding vehicle for all 10 images and tak
 
 #### SHITOMASI
 <figure>
-    <img  src="../images/SHI-TOMASI.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/SHI-TOMASI.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
 #### HARRIS
 <figure>
-    <img  src="../images/HARRIS.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/HARRIS.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
 #### SIFT
 <figure>
-    <img  src="../images/SIFT.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/SIFT.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
 #### FAST
 <figure>
-    <img  src="../images/FAST.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/FAST.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
 #### BRISK
 <figure>
-    <img  src="../images/BRISK.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/BRISK.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
-#### ORG
+#### ORB
 <figure>
-    <img  src="../images/ORB.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/ORB.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 
 #### AKAZE
 <figure>
-    <img  src="../images/AKAZE.png" alt="Drawing" style="width: 1000px;"/>
+    <img  src="./images/AKAZE.png" alt="Drawing" style="width: 1000px;"/>
 </figure>
 
 ## MP.8 Performance
